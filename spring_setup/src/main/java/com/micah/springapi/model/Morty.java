@@ -13,6 +13,7 @@ public class Morty {
     private String name;
     private String type; 
     private String rarity; 
+    private boolean collected;
     
     private int level;
     private int hp;   
