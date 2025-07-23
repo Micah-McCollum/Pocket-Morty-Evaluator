@@ -12,4 +12,5 @@ public class Morty {
 
     @Embedded
     private MortyStatBlock stats;
+
 }
