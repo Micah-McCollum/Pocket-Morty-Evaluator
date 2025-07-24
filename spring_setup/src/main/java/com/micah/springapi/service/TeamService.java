@@ -19,11 +19,31 @@ public class TeamService {
     }
 
     public Team createTeam(Team team) {
+        // Morty team size constraints
         if(team.getMortys().size() > 6) {
-            throw new IllegalArgumentException("Team cannot have more than 6 Mortys.");
+            throw new IllegalArgumentException("Team cannot have more than 6 Mortys");
         }
 
-   
+        if(team.getMortys().isEmpty()) {
+            throw new IllegalArgumentException("Team must have at least one Morty");
+        }
+
+        // Checks that all Morty IDs are unique and exist in the repository using a stream/Map
+        for(Morty morty : team.getMortys()) {
+            if(morty.getId() == null) {
+                throw new IllegalArgumentException("Morty ID cannot be null");
+            }
+        }
+        if(team.getMortys().stream()
+                .filter(m -> m.getId() != null)
+                .map(Morty::getId)
+                .distinct()
+                .count() != team.getMortys().stream()
+                .filter(m -> m.getId() != null)
+                .count()) {
+                throw new IllegalArgumentException("All Morty IDs must be unique/individual");
+            }
+            
         for(Morty morty : team.getMortys()) {
             mortyRepository.findById(morty.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Morty not found with ID: " + morty.getId()));
@@ -32,7 +52,9 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
+
     public Team getTeam(Long id) {
-        return teamRepository.findById(id).orElseThrow();
+        return teamRepository.findById(id).orElseThrow(
+            () -> new IllegalArgumentException("Team not found with ID: " + id));
     }
 }
