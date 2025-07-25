@@ -1,12 +1,17 @@
 package com.micah.springapi.service;
 
-import org.springframework.stereotype.Service;
-
+import com.micah.springapi.dto.*;
 import com.micah.springapi.model.Morty;
 import com.micah.springapi.model.Team;
 import com.micah.springapi.repository.MortyRepository;
 import com.micah.springapi.repository.TeamRepository;
-// Additional service class handling logic for Morty teams
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+// Service class handling CRUD functions for a team of Mortys
 @Service
 public class TeamService {
 
@@ -18,43 +23,67 @@ public class TeamService {
         this.mortyRepository = mortyRepository;
     }
 
-    public Team createTeam(Team team) {
-        // Morty team size constraints
-        if(team.getMortys().size() > 6) {
-            throw new IllegalArgumentException("Team cannot have more than 6 Mortys");
+    // Create and store a new Morty team using validated Morty IDs
+    // Includes duplicate checking, size limits, and existence validation
+    public TeamResponse createTeam(TeamRequest request) {
+        List<Morty> mortys = request.getMortyIds().stream()
+            .distinct()
+            .map(id -> mortyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Morty not found with ID: " + id)))
+            .collect(Collectors.toList());
+        // Team size validation: 1–6 Mortys per team
+        if(mortys.size() == 0 || mortys.size() > 6) {
+            throw new IllegalArgumentException("Team must have between 1 and 6 Mortys.");
         }
 
-        if(team.getMortys().isEmpty()) {
-            throw new IllegalArgumentException("Team must have at least one Morty");
-        }
+        Team team = new Team();
+        team.setName(request.getName());
+        team.setMortys(mortys);
 
-        // Checks that all Morty IDs are unique and exist in the repository using a stream/Map
-        for(Morty morty : team.getMortys()) {
-            if(morty.getId() == null) {
-                throw new IllegalArgumentException("Morty ID cannot be null");
-            }
-        }
-        if(team.getMortys().stream()
-                .filter(m -> m.getId() != null)
-                .map(Morty::getId)
-                .distinct()
-                .count() != team.getMortys().stream()
-                .filter(m -> m.getId() != null)
-                .count()) {
-                throw new IllegalArgumentException("All Morty IDs must be unique/individual");
-            }
-            
-        for(Morty morty : team.getMortys()) {
-            mortyRepository.findById(morty.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Morty not found with ID: " + morty.getId()));
-        }
-
-        return teamRepository.save(team);
+        Team saved = teamRepository.save(team);
+        return toTeamResponse(saved);
     }
 
+    // Fetches a previously saved team and return as DTO
+    public TeamResponse getTeam(Long id) {
+        Team team = teamRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + id));
+        return toTeamResponse(team);
+    }
 
-    public Team getTeam(Long id) {
-        return teamRepository.findById(id).orElseThrow(
-            () -> new IllegalArgumentException("Team not found with ID: " + id));
+    // Mapping each of the Mortys the DTO
+    private TeamResponse toTeamResponse(Team team) {
+        TeamResponse response = new TeamResponse();
+        response.setId(team.getId());
+        response.setName(team.getName());
+
+        List<MortyResponse> mortyResponses = team.getMortys().stream()
+            .map(this::toMortyResponse)
+            .collect(Collectors.toList());
+
+        response.setMortys(mortyResponses);
+        return response;
+    }
+    
+    // Mapping a Team model to TeamResponse DTO
+    // Uses embedded statblock
+    private MortyResponse toMortyResponse(Morty morty) {
+        MortyResponse response = new MortyResponse();
+        response.setId(morty.getId());
+        response.setCollected(morty.getStats().isCollected());
+
+        MortyStatBlockDTO statsDto = new MortyStatBlockDTO();
+        statsDto.setName(morty.getStats().getName());
+        statsDto.setType(morty.getStats().getType());
+        statsDto.setRarity(morty.getStats().getRarity());
+        statsDto.setLevel(morty.getStats().getLevel());
+        statsDto.setHp(morty.getStats().getHp());
+        statsDto.setAttack(morty.getStats().getAttack());
+        statsDto.setDefense(morty.getStats().getDefense());
+        statsDto.setSpeed(morty.getStats().getSpeed());
+        statsDto.setCollected(morty.getStats().isCollected());
+
+        response.setStats(statsDto);
+        return response;
     }
 }

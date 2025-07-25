@@ -1,6 +1,7 @@
 package com.micah.springapi.dto;
 import lombok.*;
 
+// Embedded stat block holding the various attributes for a Morty
 @Getter
 @Setter
 public class MortyStatBlockDTO {

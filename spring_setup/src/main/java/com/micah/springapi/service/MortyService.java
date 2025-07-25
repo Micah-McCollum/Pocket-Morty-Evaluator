@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import com.micah.springapi.dto.*;
 import com.micah.springapi.model.*;
 import com.micah.springapi.repository.MortyRepository;
+
 // Service class handling CRUD functions for a single Morty
 // Uses embedded stats class to get/set attributes
-
 @Service
 public class MortyService {
 

@@ -2,44 +2,48 @@ package com.micah.springapi.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import com.micah.springapi.model.Morty;
-import com.micah.springapi.repository.MortyRepository;
+
+import com.micah.springapi.dto.MortyRequest;
+import com.micah.springapi.dto.MortyResponse;
+
+import com.micah.springapi.service.MortyService;
+
 // REST APIs for each Morty character
 @RestController
 @RequestMapping("/api/mortys")
 public class MortyController {
 
-    private final MortyRepository mortyRepository;
+    private final MortyService mortyService;
 
-    public MortyController(MortyRepository mortyRepository) {
-        this.mortyRepository = mortyRepository;
-    }
-
-    @GetMapping
-    public List<Morty> getAll() {
-        return mortyRepository.findAll();
+    public MortyController(MortyService mortyService) {
+        this.mortyService = mortyService;
     }
 
     @PostMapping
-    public Morty create(@RequestBody Morty morty) {
-        return mortyRepository.save(morty);
+    public MortyResponse create(@Validated @RequestBody MortyRequest request) {
+        return mortyService.createMorty(request);
+    }
+
+     @GetMapping
+    public List<MortyResponse> getAll() {
+        return mortyService.getAllMortys();
     }
 
     @GetMapping("/{id}")
-    public Morty getById(@PathVariable Long id) {
-        return mortyRepository.findById(id).orElseThrow();
+    public MortyResponse getById(@PathVariable Long id) {
+        return mortyService.getMortyById(id);
+    }
+
+    @PutMapping("/{id}")
+    public MortyResponse updateMorty(@PathVariable Long id, @RequestBody MortyRequest request) {
+        return mortyService.updateMorty(id, request);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        mortyRepository.deleteById(id);
+        mortyService.deleteMorty(id);
     }
 }

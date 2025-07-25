@@ -12,6 +12,7 @@ import com.micah.springapi.model.Ability;
 import com.micah.springapi.repository.AbilityRepository;
 
 import java.util.List;
+
 // Rest APIs for specific abilities
 @RestController
 @RequestMapping("/api/abilities")

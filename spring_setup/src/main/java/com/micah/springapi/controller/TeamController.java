@@ -1,10 +1,12 @@
 package com.micah.springapi.controller;
 
+import com.micah.springapi.dto.TeamRequest;
+import com.micah.springapi.dto.TeamResponse;
+import com.micah.springapi.service.TeamService;
 import org.springframework.web.bind.annotation.*;
 
-import com.micah.springapi.model.Team;
-import com.micah.springapi.service.TeamService;
-// Controller for a team of Morty characters
+// REST API controller for creating and retrieving Morty teams
+// Handles the validation and business logic for TeamService
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
@@ -16,12 +18,12 @@ public class TeamController {
     }
 
     @PostMapping
-    public Team createTeam(@RequestBody Team team) {
-        return teamService.createTeam(team);
+    public TeamResponse createTeam(@RequestBody TeamRequest request) {
+        return teamService.createTeam(request);
     }
 
     @GetMapping("/{id}")
-    public Team getTeam(@PathVariable Long id) {
+    public TeamResponse getTeam(@PathVariable Long id) {
         return teamService.getTeam(id);
     }
 }
