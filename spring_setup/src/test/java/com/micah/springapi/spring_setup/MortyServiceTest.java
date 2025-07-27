@@ -8,10 +8,8 @@ import com.micah.springapi.repository.MortyRepository;
 import com.micah.springapi.service.MortyService;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Optional;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

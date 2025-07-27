@@ -38,7 +38,7 @@ public class MortyController {
     }
 
     @PutMapping("/{id}")
-    public MortyResponse updateMorty(@PathVariable Long id, @RequestBody MortyRequest request) {
+    public MortyResponse updateMorty(@Validated @PathVariable Long id, @RequestBody MortyRequest request) {
         return mortyService.updateMorty(id, request);
     }
 
