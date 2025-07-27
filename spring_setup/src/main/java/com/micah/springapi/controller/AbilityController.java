@@ -1,5 +1,6 @@
 package com.micah.springapi.controller;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class AbilityController {
     }
 
     @PostMapping
-    public Ability create(@RequestBody Ability ability) {
+    public Ability create(@Validated @RequestBody Ability ability) {
         return abilityRepository.save(ability);
     }
 

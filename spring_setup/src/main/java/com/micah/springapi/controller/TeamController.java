@@ -3,6 +3,8 @@ package com.micah.springapi.controller;
 import com.micah.springapi.dto.TeamRequest;
 import com.micah.springapi.dto.TeamResponse;
 import com.micah.springapi.service.TeamService;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 // REST API controller for creating and retrieving Morty teams
@@ -18,7 +20,7 @@ public class TeamController {
     }
 
     @PostMapping
-    public TeamResponse createTeam(@RequestBody TeamRequest request) {
+    public TeamResponse createTeam(@Validated @RequestBody TeamRequest request) {
         return teamService.createTeam(request);
     }
 
