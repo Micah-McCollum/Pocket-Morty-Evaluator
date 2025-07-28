@@ -35,4 +35,5 @@ public class SecurityConfig {
                 .httpBasic(withDefaults()); // Enable basic auth
         return http.build();
     }
+
 }
