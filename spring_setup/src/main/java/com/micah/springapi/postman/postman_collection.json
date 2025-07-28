@@ -1,0 +1,99 @@
+
+
+collection = {
+    "info": {
+        "name": "Pocket Mortys API Tests",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create Morty",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {"key": "Content-Type", "value": "application/json"}
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/mortys",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "mortys"]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": json.dumps({
+                        "stats": {
+                            "collected": True,
+                            "name": "TestMorty",
+                            "type": "rock",
+                            "rarity": "common",
+                            "level": 5,
+                            "hp": 30,
+                            "attack": 10,
+                            "defense": 5,
+                            "speed": 12
+                        }
+                    }, indent=2)
+                }
+            }
+        },
+        {
+            "name": "Get All Mortys",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:8080/api/mortys",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "mortys"]
+                }
+            }
+        },
+        {
+            "name": "Create Team",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {"key": "Content-Type", "value": "application/json"}
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/teams",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "teams"]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": json.dumps({
+                        "name": "Test Team",
+                        "mortyIds": [1]
+                    }, indent=2)
+                }
+            }
+        },
+        {
+            "name": "Get Team By ID",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:8080/api/teams/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "8080",
+                    "path": ["api", "teams", "1"]
+                }
+            }
+        }
+    ]
+}
+
+# Write to file
+file_path = "/mnt/data/postman_collection.json"
+with open(file_path, "w") as f:
+    json.dump(collection, f, indent=2)
+
+file_path
+'/mnt/data/postman_collection.json'

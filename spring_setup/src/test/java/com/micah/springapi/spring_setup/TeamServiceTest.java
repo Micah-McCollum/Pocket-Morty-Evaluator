@@ -1,7 +1,6 @@
 package com.micah.springapi.spring_setup;
 
 import com.micah.springapi.dto.TeamRequest;
-import com.micah.springapi.model.Morty;
 import com.micah.springapi.repository.MortyRepository;
 import com.micah.springapi.repository.TeamRepository;
 import com.micah.springapi.service.TeamService;
