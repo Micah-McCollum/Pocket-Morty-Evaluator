@@ -14,7 +14,7 @@ import com.micah.springapi.repository.AbilityRepository;
 
 import java.util.List;
 
-// Rest APIs for specific abilities
+// Rest APIs for specific abilities, not currently used in evaluation formula
 @RestController
 @RequestMapping("/api/abilities")
 public class AbilityController {

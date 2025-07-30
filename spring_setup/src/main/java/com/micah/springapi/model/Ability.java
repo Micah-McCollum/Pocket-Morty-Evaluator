@@ -1,7 +1,7 @@
 package com.micah.springapi.model;
 
 import jakarta.persistence.*;
-
+// Ability currently not factored into evaluation, for future use in team recomendation etc
 @Entity
 public class Ability {
 

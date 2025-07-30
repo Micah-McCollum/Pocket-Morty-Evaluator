@@ -3,7 +3,7 @@ package com.micah.springapi.service;
 import com.micah.springapi.dto.EvaluationRequest;
 import com.micah.springapi.dto.EvaluationResponse;
 import org.springframework.stereotype.Service;
-
+// Service class for training worthiness evaluation, currently adds all stats and factors level into account when determining3
 @Service
 public class StatEvaluatorService {
 
