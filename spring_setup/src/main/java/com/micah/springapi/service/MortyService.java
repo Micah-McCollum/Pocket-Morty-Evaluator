@@ -7,8 +7,10 @@ import com.micah.springapi.dto.*;
 import com.micah.springapi.model.*;
 import com.micah.springapi.repository.MortyRepository;
 
-// Service class handling CRUD functions for a single Morty
-// Uses embedded stats class to get/set attributes
+/**
+ * Service layer responsible for managing Morty entities.
+ * Handles CRUD operations and maps between MortyRequest/MortyResponse DTOs.
+ */
 @Service
 public class MortyService {
 
@@ -17,7 +19,10 @@ public class MortyService {
     public MortyService(MortyRepository mortyRepository) {
         this.mortyRepository = mortyRepository;
     }
-
+    
+    /**
+     * Creates a new Morty from request data and saves it to the repository.
+     */
     public MortyResponse createMorty(MortyRequest request) {
         Morty morty = new Morty();
         MortyStatBlock stats = new MortyStatBlock();

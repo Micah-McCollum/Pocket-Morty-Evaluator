@@ -2,7 +2,10 @@ package com.micah.springapi.model;
 import lombok.*;
 import jakarta.persistence.*;
 
-// Model for a Morty character
+/**
+ * Core entity representing a Morty character.
+ * Each Morty contains a stat block embedded via @Embeddable class.
+ */
 @Getter
 @Setter
 @Entity

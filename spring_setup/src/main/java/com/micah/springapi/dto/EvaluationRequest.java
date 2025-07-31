@@ -1,7 +1,10 @@
 package com.micah.springapi.dto;
 
 import jakarta.validation.constraints.*;
-
+/**
+ * DTO representing input stat values for evaluating a Morty's worthiness.
+ * Used in POST /api/evaluate.
+ */
 public class EvaluationRequest {
     @Min(1) @Max(100)
     private int level;

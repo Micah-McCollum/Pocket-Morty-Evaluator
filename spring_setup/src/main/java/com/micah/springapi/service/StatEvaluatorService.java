@@ -3,7 +3,11 @@ package com.micah.springapi.service;
 import com.micah.springapi.dto.EvaluationRequest;
 import com.micah.springapi.dto.EvaluationResponse;
 import org.springframework.stereotype.Service;
-// Service class for training worthiness evaluation, currently adds all stats and factors level into account when determining3
+
+/**
+ * Service class responsible for evaluating Morty stat blocks to determine training worthiness.
+ * Uses a custom scoring formula to return an evaluation recommendation.
+ */
 @Service
 public class StatEvaluatorService {
 
@@ -22,7 +26,11 @@ public class StatEvaluatorService {
 
         return response;
     }
-
+    
+    /**
+     * Calculates the Morty's evaluation score based on base stats and level.
+     * Formula: score = 0.5 * level + hp + attack + defense + speed
+     */
     private int calculateScore(EvaluationRequest request) {
         return (int) (
             request.getLevel() * 0.5 +

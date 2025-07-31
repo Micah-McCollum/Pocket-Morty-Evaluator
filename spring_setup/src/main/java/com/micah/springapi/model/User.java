@@ -2,7 +2,10 @@ package com.micah.springapi.model;
 
 import jakarta.persistence.*;
 
-// Model for a User used in security config
+/**
+ * Entity representing a registered user in the system.
+ * Used for authentication and role-based access control.
+ */
 @Entity
 @Table(name = "users")
 public class User {

@@ -1,7 +1,11 @@
 package com.micah.springapi.model;
 
 import jakarta.persistence.*;
-// Ability currently not factored into evaluation, for future use in team recomendation etc
+/**
+ * Represents a combat or support ability in the game.
+ * Currently not used in stat evaluation but may be used
+ * in future logic for team recommendations or battle outcomes.
+ */
 @Entity
 public class Ability {
 

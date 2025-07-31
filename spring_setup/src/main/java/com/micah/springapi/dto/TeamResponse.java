@@ -2,8 +2,11 @@ package com.micah.springapi.dto;
 
 import java.util.List;
 
-// DTO used when returning full Morty team details
-// Includes team ID, name, and full info for each Morty on the team
+/**
+ * DTO returned when retrieving a full Morty team.
+ * Includes team ID, name, and the full MortyResponse objects
+ * for each member of the team.
+ */
 public class TeamResponse {
     private Long id;
     private String name;

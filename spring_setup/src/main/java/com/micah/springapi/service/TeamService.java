@@ -11,7 +11,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-// Service class handling CRUD functions for a team of Mortys
+/**
+ * Service layer for managing teams of Mortys.
+ * Handles team creation, member validation, and DTO transformation.
+ */
 @Service
 public class TeamService {
 

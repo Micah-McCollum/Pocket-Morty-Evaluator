@@ -2,6 +2,10 @@ package com.micah.springapi.dto;
 
 import lombok.*;
 
+/**
+ * DTO used for creating or updating a Morty.
+ * Wraps a MortyStatBlockDTO and collection status.
+ */
 @Getter
 @Setter
 public class MortyRequest {

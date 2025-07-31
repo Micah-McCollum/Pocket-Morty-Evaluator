@@ -6,7 +6,11 @@ import com.micah.springapi.service.StatEvaluatorService;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-// Controller for evaluation of training worthiness for a given Morty
+
+/**
+ * REST controller for evaluating Morty stats to determine training worthiness.
+ * Delegates logic to the StatEvaluatorService.
+ */
 @RestController
 @RequestMapping("/api/evaluate")
 public class EvaluationController {
@@ -17,6 +21,11 @@ public class EvaluationController {
         this.evaluator = evaluator;
     }
 
+    /**
+     * Evaluates a Morty based on its stats to determine if it's worth training.
+     * @param request the evaluation request containing stat values
+     * @return an EvaluationResponse with score and recommendation
+     */
     @PostMapping
     public EvaluationResponse evaluate(@Validated @RequestBody EvaluationRequest request) {
         return evaluator.evaluate(request);

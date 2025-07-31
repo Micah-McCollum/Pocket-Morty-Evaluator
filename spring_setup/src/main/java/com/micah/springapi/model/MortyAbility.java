@@ -1,7 +1,11 @@
 package com.micah.springapi.model;
 
 import jakarta.persistence.*;
-
+/**
+ * Join entity linking Mortys with their Abilities.
+ * Supports a many-to-one relationship for each side,
+ * allowing future extension for Mortys with multiple skills.
+ */
 @Entity
 public class MortyAbility {
 

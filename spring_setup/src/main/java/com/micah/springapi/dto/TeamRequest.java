@@ -2,8 +2,10 @@ package com.micah.springapi.dto;
 
 import java.util.List;
 
-// DTO for creating a new Morty team
-// Includes the team name and list of Morty IDs (to be resolved in service)
+/**
+ * DTO used for creating a new Morty team.
+ * Includes team name and a list of Morty IDs to associate with the team.
+ */
 public class TeamRequest {
     private String name;
     private List<Long> mortyIds;

@@ -2,6 +2,10 @@ package com.micah.springapi.dto;
 
 import lombok.*;
 
+/**
+ * DTO returned after creating, retrieving, or updating a Morty.
+ * Includes generated ID, stat block, and collection flag.
+ */
 @Getter
 @Setter
 public class MortyResponse {

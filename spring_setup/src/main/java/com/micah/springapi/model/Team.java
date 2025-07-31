@@ -2,8 +2,11 @@ package com.micah.springapi.model;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
-// Model for a group of multiple Mortys, max 6
-// Can be less but not 0
+/**
+ * Represents a team composed of up to six Mortys.
+ * Each team has a name and a list of Morty entities.
+ * Enforced as a @ManyToMany relation.
+ */
 @Getter
 @Setter
 @Entity

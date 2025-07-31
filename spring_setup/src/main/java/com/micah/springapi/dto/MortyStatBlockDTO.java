@@ -6,7 +6,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 
-// Embedded stat block holding the various attributes for a Morty
+/**
+ * Embedded DTO representing the core stat block of a Morty.
+ * Used inside both MortyRequest and MortyResponse.
+ */
 @Getter
 @Setter
 public class MortyStatBlockDTO {

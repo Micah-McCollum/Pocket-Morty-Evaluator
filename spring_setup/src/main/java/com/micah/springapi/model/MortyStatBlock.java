@@ -5,8 +5,11 @@ import java.io.Serializable;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
-// Embedded class for a single morty's stats
-// Used in Morty entity to encapsulate stats
+/**
+ * Embedded stat block for a Morty.
+ * Stores all relevant numeric and classification attributes.
+ * Used inside Morty entity via @Embedded annotation.
+ */
 @Getter
 @Setter
 @Embeddable

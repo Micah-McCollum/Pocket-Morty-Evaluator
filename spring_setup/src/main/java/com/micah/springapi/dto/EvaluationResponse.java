@@ -1,5 +1,10 @@
 package com.micah.springapi.dto;
 
+/**
+ * DTO returned by the evaluation endpoint.
+ * Contains calculated score, a boolean flag for worthiness,
+ * and a recommendation string.
+ */
 public class EvaluationResponse {
     private boolean worthTraining;
     private int score;

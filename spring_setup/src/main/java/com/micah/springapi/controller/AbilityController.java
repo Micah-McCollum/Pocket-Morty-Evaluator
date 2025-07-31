@@ -14,7 +14,10 @@ import com.micah.springapi.repository.AbilityRepository;
 
 import java.util.List;
 
-// Rest APIs for specific abilities, not currently used in evaluation formula
+/**
+ * REST controller for managing Morty Abilities.
+ * Currently unused in evaluation logic but supports basic CRUD operations.
+ */
 @RestController
 @RequestMapping("/api/abilities")
 public class AbilityController {
@@ -25,16 +28,29 @@ public class AbilityController {
         this.abilityRepository = abilityRepository;
     }
 
+    /**
+     * Retrieves all stored abilities.
+     * @return list of Ability objects
+     */
     @GetMapping
     public List<Ability> getAll() {
         return abilityRepository.findAll();
     }
 
+    /**
+     * Creates a new Ability.
+     * @param ability the Ability object to create
+     * @return the saved Ability
+     */
     @PostMapping
     public Ability create(@Validated @RequestBody Ability ability) {
         return abilityRepository.save(ability);
     }
 
+    /**
+     * Deletes an Ability by its ID.
+     * @param id the ID of the Ability to delete
+     */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         abilityRepository.deleteById(id);

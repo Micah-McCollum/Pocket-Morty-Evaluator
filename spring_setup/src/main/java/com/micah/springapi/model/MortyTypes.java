@@ -1,6 +1,8 @@
 package com.micah.springapi.model;
-// PocketMortys works in a rock/paper/scissors gameplay loop
-// Each Morty is 1 type max, or not typed at all
+/**
+ * Enum defining Morty elemental types.
+ * Based on a rock-paper-scissors combat loop used in gameplay logic.
+ */
 public enum MortyTypes {
     ROCK,
     PAPER,
