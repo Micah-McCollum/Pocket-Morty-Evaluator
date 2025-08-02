@@ -6,6 +6,8 @@ import com.micah.springapi.model.Team;
 import com.micah.springapi.repository.MortyRepository;
 import com.micah.springapi.repository.TeamRepository;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,4 +91,35 @@ public class TeamService {
         response.setStats(statsDto);
         return response;
     }
+
+    public TeamEvaluationResponse evaluateTeamTypes(Long teamId) {
+    Team team = teamRepository.findById(teamId)
+        .orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + teamId));
+
+    Map<String, Integer> typeCounts = new HashMap<>();
+    typeCounts.put("ROCK", 0);
+    typeCounts.put("PAPER", 0);
+    typeCounts.put("SCISSORS", 0);
+    typeCounts.put("NORMAL", 0);
+
+    for (Morty morty : team.getMortys()) {
+        String type = morty.getStats().getType().toUpperCase();
+        if (typeCounts.containsKey(type)) {
+            typeCounts.put(type, typeCounts.get(type) + 1);
+        }
+    }
+
+    // Recommend the least represented combat type (ignore NORMAL)
+    String recommendation = typeCounts.entrySet().stream()
+        .filter(e -> !e.getKey().equals("NORMAL"))
+        .min(Map.Entry.comparingByValue())
+        .map(e -> "Add more " + e.getKey() + " types for better type balance.")
+        .orElse("Team is well-balanced.");
+
+    TeamEvaluationResponse response = new TeamEvaluationResponse();
+    response.setTypeCounts(typeCounts);
+    response.setRecommendation(recommendation);
+    return response;
+}
+
 }

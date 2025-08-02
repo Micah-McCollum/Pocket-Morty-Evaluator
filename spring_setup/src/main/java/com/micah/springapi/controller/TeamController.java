@@ -1,5 +1,6 @@
 package com.micah.springapi.controller;
 
+import com.micah.springapi.dto.TeamEvaluationResponse;
 import com.micah.springapi.dto.TeamRequest;
 import com.micah.springapi.dto.TeamResponse;
 import com.micah.springapi.service.TeamService;
@@ -37,7 +38,17 @@ public class TeamController {
      * @return TeamResponse object
      */
     @GetMapping("/{id}")
-    public TeamResponse getTeam(@PathVariable Long id) {
+    public TeamResponse getTeam(@PathVariable("id")Long id) {
         return teamService.getTeam(id);
     }
+
+    /**
+     * Retrieves a team reponse based on entered team.
+     * @param id the team's ID
+     * @return TeamResponse object
+     */
+    @GetMapping("/{id}/evaluate")
+    public TeamEvaluationResponse evaluateTeam(@PathVariable Long id) {
+    return teamService.evaluateTeamTypes(id);
+}
 }
