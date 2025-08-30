@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: morty_evaluator
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/mortydb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: morty
+    password: secret
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update    # Switch to validate after flyway
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate.jdbc.time_zone: UTC
+      hibernate.format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: warn
