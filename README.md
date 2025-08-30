@@ -9,7 +9,8 @@ A backend REST API for evaluating the stat-based potential of Morty characters b
 - Create and manage Morty characters with detailed stat blocks
 - Build teams of Mortys 
 - Evaluate Morty stats for worthiness via stat scoring parameters
-- Secure user-based authentication with H2 database
+- Secure user-based authentication with Spring Security and MySQL 8.4
+- Passwords stored using BCrypt hashing
 - Fully tested with unit tests and Postman integration tests
 
 ---
@@ -18,11 +19,12 @@ A backend REST API for evaluating the stat-based potential of Morty characters b
 
 - Java 21
 - Spring Boot 3
-- Spring Security
-- Spring Data JPA (H2 database)
+- Spring Security (HTTP Basic, BCrypt password storage)
+- Spring Data JPA (Runtime: MySQL, Testing: H2)
 - Gradle
 - JUnit 5 + Mockito
 - Postman (manual and automated API testing)
+- Docker Compose (MySQL 8.4)
 
 ---
 
@@ -35,30 +37,40 @@ A backend REST API for evaluating the stat-based potential of Morty characters b
    cd pocketmortys-evaluator-api
    ```
 
-2. Run the app:
+2. Start MySQL server with Docker:
 
-   ```bash
-   ./gradlew bootRun
-   ```
+   docker compose up -d
 
-3. Access:
+   The app starts MySQL 8.4 with
+   - Database: mortydb
+   - User: morty
+   - Password: secret
+
+3. Run the app:
+
+   ./gradlew bootRun --args="--spring.profiles.active=mysql"
+
+4. Access:
 
    - API Root: `http://localhost:8080`
-   - H2 Console: `http://localhost:8080/h2-console`
    - Postman Environment: [`PocketMortysLocal.postman_environment.json`](postman/PocketMortysLocal.postman_environment.json)
 
 ---
 
 ## Authentication
 
-This project uses HTTP Basic authentication with a pre-seeded user:
+- Uses HTTP Basic Auth.
+- User credentials are stored in the users table in MySQL.
+- Passwords must be BCrypt hashes (never stored in plaintext).
+- To create a user manually:
+   - To generate a BCrypt hash, you can run the provided BCryptToolRunner (see com.mortyproject.tools) or use any local Java snippet with new BCryptPasswordEncoder().encode("rawPassword").
 
-```
-Username: admin
-Password: adminpass
-```
-
-User credentials are stored in the H2 database and loaded at runtime.
+INSERT INTO users (username, password, role)
+VALUES (
+  'micah',
+  '$2a$10$Vt7NLN29DShsh..../hashedPasswordHere...',
+  'USER'
+);
 
 ---
 
@@ -112,9 +124,7 @@ Creates a team (max 6 Mortys).
 
 Run all tests:
 
-```bash
 ./gradlew test
-```
 
 ### Postman
 
@@ -129,12 +139,18 @@ Import both into Postman and run the full request suite.
 
 ```
 src/
- ├── main/java/com/micah/springapi
- │   ├── controller/     # REST controllers
- │   ├── dto/            # Request/response payloads
- │   ├── model/          # Entities and enums
- │   ├── repository/     # JPA repositories
- │   └── service/        # Business logic
+ ├── main/java/com/mortyproject
+ │   ├── config/                 # Application and Security config
+ │   ├── controllers/            # REST controllers
+ │   ├── dto/                    # Request/response payloads
+ │   ├── model/                  # Entities and enums
+ │   ├── repository/             # JPA repositories
+ │   ├── repository/             # JPA repositories
+ │   └── service/                # Business logic
+ ├── main/resources
+ │   └── application-mysql.yml   # MySQL runtime profile
+ └── test/resources
+     └── application.properties  # H2 for tests
 
 postman/
  ├── PocketMortysAPI.postman_collection.json
@@ -145,5 +161,15 @@ postman/
 
 ## Summary
 
-This project demonstrates a secure, RESTful, stat-evaluation API built with Spring Boot. It includes full CRUD support, custom business logic, DTO separation, unit tests, and live integration testing. Ideal for showcasing backend development capabilities in a focused, game-inspired application.
+This project demonstrates a secure, RESTful stat-evaluation API built with Spring Boot 3.5. It includes:
+
+- Full CRUD support for Mortys and Teams
+
+- Custom scoring business logic
+
+- BCrypt-based authentication with MySQL persistence
+
+- Separation of profiles for dev (MySQL) and test (H2)
+
+- Unit tests and Postman integration suite
 
