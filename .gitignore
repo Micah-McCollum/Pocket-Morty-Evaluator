@@ -37,6 +37,7 @@ out/
 .vscode/
 
 ### Secrets ###
+./secrets/**/
 ./secrets/db_root_password.txt
 ./secrets/db_app_password.txt
 ./env
