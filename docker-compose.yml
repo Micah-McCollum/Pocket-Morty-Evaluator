@@ -1,15 +1,59 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
 services:
-  mysql:
+  db:
     image: mysql:8.4
+    restart: unless-stopped
     environment:
-      MYSQL_DATABASE: mortydb
-      MYSQL_USER: morty
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: root
-    command: [ "--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci", "--default-time-zone=+00:00" ]
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD_FILE: /run/secrets/db_app_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    volumes:
+      - db-data:/var/lib/mysql
+      # Any .sql or .sh here runs exactly once on first init
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: [ "CMD", "sh", "-c", "mysqladmin ping -h 127.0.0.1 -uroot -p$(cat /run/secrets/db_root_password)" ]
+      interval: 5s
+      timeout: 3s
+      retries: 30
     ports:
       - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
+    secrets:
+      - db_root_password
+      - db_app_password
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/appdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_PROFILES_ACTIVE: docker
+    secrets:
+      - db_app_password
+    # command: [ "sh", "-c", "export SPRING_DATASOURCE_PASSWORD=$(cat /run/secrets/db_app_password) && java $JAVA_OPTS -jar /app/app.jar" ]
+    ports:
+      - "8080:8080"
+
 volumes:
-  mysql-data: {}
+  db-data:
+
+
+secrets:
+  db_root_password:
+    file: ./secrets/_db_root_password.txt
+  db_app_password:
+    file: ./secrets/_db_app_password.txt

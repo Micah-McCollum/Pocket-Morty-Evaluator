@@ -51,3 +51,14 @@ tasks.named('test') {
     showStandardStreams = true
     }
 }
+
+tasks.register('printBcrypt', JavaExec) {
+    group = 'tools'
+    description = 'Print a BCrypt hash for a given password'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.mortyproject.tools.BCryptTool'
+    if(project.hasProperty('pwd')) {
+        args(project.property('pwd'))
+    }
+}
+

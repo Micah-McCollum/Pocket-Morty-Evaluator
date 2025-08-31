@@ -39,7 +39,7 @@ class SpringSetupApplicationTests {
         MortyRequest request = new MortyRequest();
         MortyStatBlockDTO stats = new MortyStatBlockDTO();
         stats.setCollected(true);
-        stats.setName("UnitMorty");
+        stats.setName("HammerHead Morty");
         stats.setType("rock");
         stats.setRarity("common");
         stats.setLevel(5);
