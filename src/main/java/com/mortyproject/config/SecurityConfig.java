@@ -28,9 +28,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/h2-console/**").permitAll()
-                                .anyRequest().authenticated()
-                )
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
                 .httpBasic(withDefaults()); // Enable basic auth
         return http.build();

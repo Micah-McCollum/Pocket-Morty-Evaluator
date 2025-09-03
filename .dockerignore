@@ -60,3 +60,15 @@ pom.xml.tag
 pom.xml.versionsBackup
 release.properties
 replay_pid*
+.git
+.gradle
+build
+out
+bin
+**/*.iml
+**/.DS_Store
+node_modules
+*.log
+.vscode
+secrets
+.env
